@@ -28,6 +28,8 @@ async fn check_chrome_updates() -> Result<(), Error> {
 async fn check_jetbrains_updates() -> Result<(), Error> {
     let jetbrains_products = vec![
         vec!["datagrip", "DataGrip", "DB-RELEASE-licensing-RELEASE"],
+        vec!["goland", "GoLand", "GO-RELEASE-licensing-RELEASE"],
+        vec!["goland-eap", "GoLand", "GO-EAP-licensing-EAP"],
         vec!["intellij-idea-ce", "IntelliJ IDEA", "IC-IU-RELEASE-licensing-RELEASE"],
         vec!["intellij-idea-ce-eap", "IntelliJ IDEA", "IC-IU-EAP-licensing-EAP"],
         vec!["intellij-idea-ultimate-edition", "IntelliJ IDEA", "IC-IU-RELEASE-licensing-RELEASE"],
