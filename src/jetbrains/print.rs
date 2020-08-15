@@ -6,7 +6,7 @@ fn get_package_build(version: String) -> String {
     let mut splitter = version.rsplit(".");
     for i in 0..3 {
         if i != 0 {
-           result.insert(0, '.');
+            result.insert(0, '.');
         }
         result.insert_str(0, splitter.next().unwrap());
     }
@@ -30,7 +30,11 @@ fn print_update(package: &str, version: String, new_version: &str) {
 }
 
 fn print_jetbrains_update(channel_name: &str, package: &AurPackage, product: &Product, is_eap: bool) {
-    let channel = product.channels.iter().find(| &c | c.id == channel_name).unwrap();
+    let channel = if is_eap {
+        product.channels.first().unwrap()
+    } else {
+        product.channels.iter().find(| &c | c.id == channel_name).unwrap()
+    };
     let build = channel.builds.first().unwrap();
     let mut version = remove_epoch(package.get_package_version());
     let new_version;
