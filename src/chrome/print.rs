@@ -8,13 +8,22 @@ fn print_update(package: &str, version: String, new_version: &str) {
 }
 
 fn print_chrome_update(package: &AurPackage, update: &ChromeUpdate) {
-    print_update(&package.name, package.get_package_version(), &update.version);
+    print_update(
+        &package.name,
+        package.get_package_version(),
+        &update.version,
+    );
 }
 
-pub fn print_chrome_updates(products: Vec<Vec<&str>>, packages: Vec<AurPackage>, updates: Vec<ChromeUpdate>) {
-    products.iter()
-        .for_each(| product | print_chrome_update(
-            packages.iter().find(| &p | p.name == product[0]).unwrap(),
-            updates.iter().find(| &u | u.name == product[1]).unwrap()
-        ));
+pub fn print_chrome_updates(
+    products: Vec<Vec<&str>>,
+    packages: Vec<AurPackage>,
+    updates: Vec<ChromeUpdate>,
+) {
+    products.iter().for_each(|product| {
+        print_chrome_update(
+            packages.iter().find(|&p| p.name == product[0]).unwrap(),
+            updates.iter().find(|&u| u.name == product[1]).unwrap(),
+        )
+    });
 }

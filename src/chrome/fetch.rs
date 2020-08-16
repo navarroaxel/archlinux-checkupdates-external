@@ -13,14 +13,18 @@ async fn inflate_response(response: Response) -> Result<String, Error> {
 
 pub async fn fetch_chrome_updates() -> Result<Vec<ChromeUpdate>, Error> {
     let response = inflate_response(
-        reqwest::get("https://dl.google.com/linux/chrome/rpm/stable/x86_64/repodata/other.xml.gz").await?
-    ).await?;
+        reqwest::get("https://dl.google.com/linux/chrome/rpm/stable/x86_64/repodata/other.xml.gz")
+            .await?,
+    )
+    .await?;
     let repository: ChromeRepository = serde_xml_rs::from_str(&response).unwrap();
 
-    let updates = repository.packages.iter()
-        .map(| pkg| ChromeUpdate {
+    let updates = repository
+        .packages
+        .iter()
+        .map(|pkg| ChromeUpdate {
             name: pkg.name.clone(),
-            version: pkg.versions.first().unwrap().version.clone()
+            version: pkg.versions.first().unwrap().version.clone(),
         })
         .collect::<Vec<ChromeUpdate>>();
 
