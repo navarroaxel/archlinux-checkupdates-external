@@ -1,8 +1,9 @@
 mod aur;
 mod chrome;
+mod edge;
 mod jetbrains;
-
 use chrome::{fetch_chrome_updates, print_chrome_updates};
+use edge::fetch_edge_updates;
 use jetbrains::{fetch_jetbrains_updates, print_jetbrains_updates};
 
 use aur::fetch_aur_packages;
@@ -77,6 +78,15 @@ async fn check_jetbrains_updates() -> Result<(), Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
+    let products = vec![
+        vec!["microsoft-edge-beta-bin", "microsoft-edge-beta"],
+        vec!["microsoft-edge-dev-bin", "microsoft-edge-dev"],
+    ];
+    let (updates, packages) = join!(
+        fetch_edge_updates(),
+        fetch_aur_packages(products.iter().map(|p| p[0].clone()).collect())
+    );
+    print_chrome_updates(products, packages.unwrap(), updates.unwrap());
     let (jetbrains_result, chrome_result) =
         join!(check_jetbrains_updates(), check_chrome_updates());
     jetbrains_result.expect("Cannot fetch JetBrains updates!");
