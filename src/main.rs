@@ -2,8 +2,10 @@ mod aur;
 mod chrome;
 mod edge;
 mod jetbrains;
+mod yum;
 use chrome::{fetch_chrome_updates, print_chrome_updates};
 use edge::fetch_edge_updates;
+use yum::{print_yum_updates};
 use jetbrains::{fetch_jetbrains_updates, print_jetbrains_updates};
 
 use aur::fetch_aur_packages;
@@ -18,7 +20,7 @@ async fn check_chrome_updates() -> Result<(), Error> {
     ];
     let (updates, packages) = join!(
         fetch_chrome_updates(),
-        fetch_aur_packages(products.iter().map(|p| p[0].clone()).collect())
+        fetch_aur_packages(products.iter().map(|p| p[0]).collect())
     );
     print_chrome_updates(products, packages.unwrap(), updates.unwrap());
     Ok(())
@@ -70,7 +72,7 @@ async fn check_jetbrains_updates() -> Result<(), Error> {
     ];
     let (updates, packages) = join!(
         fetch_jetbrains_updates(),
-        fetch_aur_packages(jetbrains_products.iter().map(|p| p[0].clone()).collect())
+        fetch_aur_packages(jetbrains_products.iter().map(|p| p[0]).collect())
     );
     print_jetbrains_updates(jetbrains_products, packages.unwrap(), updates.unwrap());
     Ok(())
@@ -84,9 +86,9 @@ async fn main() -> Result<(), Error> {
     ];
     let (updates, packages) = join!(
         fetch_edge_updates(),
-        fetch_aur_packages(products.iter().map(|p| p[0].clone()).collect())
+        fetch_aur_packages(products.iter().map(|p| p[0]).collect())
     );
-    print_chrome_updates(products, packages.unwrap(), updates.unwrap());
+    print_yum_updates(products, packages.unwrap(), updates.unwrap());
     let (jetbrains_result, chrome_result) =
         join!(check_jetbrains_updates(), check_chrome_updates());
     jetbrains_result.expect("Cannot fetch JetBrains updates!");
