@@ -11,15 +11,13 @@ jobs:
   fmt:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: rustfmt
         run: cargo fmt -- --check
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Build
         run: cargo build --verbose
       - name: Clippy
