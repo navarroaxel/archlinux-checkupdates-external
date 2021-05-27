@@ -3,14 +3,27 @@ mod chrome;
 mod edge;
 mod jetbrains;
 mod yum;
-use chrome::{fetch_chrome_updates, print_chrome_updates};
+use chrome::fetch_chrome_updates;
 use edge::fetch_edge_updates;
-use yum::{print_yum_updates};
 use jetbrains::{fetch_jetbrains_updates, print_jetbrains_updates};
+use yum::print_yum_updates;
 
 use aur::fetch_aur_packages;
 use futures::join;
 use reqwest::Error;
+
+async fn check_edge_updates() -> Result<(), Error> {
+    let products = vec![
+        vec!["microsoft-edge-beta-bin", "microsoft-edge-beta"],
+        vec!["microsoft-edge-dev-bin", "microsoft-edge-dev"],
+    ];
+    let (updates, packages) = join!(
+        fetch_edge_updates(),
+        fetch_aur_packages(products.iter().map(|p| p[0]).collect())
+    );
+    print_yum_updates(products, packages.unwrap(), updates.unwrap());
+    Ok(())
+}
 
 async fn check_chrome_updates() -> Result<(), Error> {
     let products = vec![
@@ -22,7 +35,7 @@ async fn check_chrome_updates() -> Result<(), Error> {
         fetch_chrome_updates(),
         fetch_aur_packages(products.iter().map(|p| p[0]).collect())
     );
-    print_chrome_updates(products, packages.unwrap(), updates.unwrap());
+    print_yum_updates(products, packages.unwrap(), updates.unwrap());
     Ok(())
 }
 
@@ -80,18 +93,13 @@ async fn check_jetbrains_updates() -> Result<(), Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let products = vec![
-        vec!["microsoft-edge-beta-bin", "microsoft-edge-beta"],
-        vec!["microsoft-edge-dev-bin", "microsoft-edge-dev"],
-    ];
-    let (updates, packages) = join!(
-        fetch_edge_updates(),
-        fetch_aur_packages(products.iter().map(|p| p[0]).collect())
+    let (jetbrains_result, edge_result, chrome_result) = join!(
+        check_jetbrains_updates(),
+        check_edge_updates(),
+        check_chrome_updates()
     );
-    print_yum_updates(products, packages.unwrap(), updates.unwrap());
-    let (jetbrains_result, chrome_result) =
-        join!(check_jetbrains_updates(), check_chrome_updates());
     jetbrains_result.expect("Cannot fetch JetBrains updates!");
+    edge_result.expect("Cannot fetch Microsoft Edge updates!");
     chrome_result.expect("Cannot fetch Google Chrome updates!");
     Ok(())
 }

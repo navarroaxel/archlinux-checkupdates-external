@@ -1,5 +1,5 @@
 use crate::aur::AurPackage;
-use crate::yum::{YumUpdate};
+use crate::yum::YumUpdate;
 
 fn print_update(package: &str, version: String, new_version: &str) {
     if version != new_version {
