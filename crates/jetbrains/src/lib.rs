@@ -4,4 +4,4 @@ mod print;
 
 pub use fetch::*;
 pub use model::*;
-pub use print::*;
+pub use print::print_jetbrains_updates;

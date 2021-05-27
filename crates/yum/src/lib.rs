@@ -4,4 +4,4 @@ mod print;
 
 pub use fetch::fetch_yum_updates;
 pub use model::YumUpdate;
-pub use print::*;
+pub use print::print_yum_updates;

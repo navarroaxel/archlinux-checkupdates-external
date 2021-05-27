@@ -1,5 +1,5 @@
-use crate::yum::{fetch_yum_updates, YumUpdate};
 use reqwest::Error;
+use yum::{fetch_yum_updates, YumUpdate};
 
 pub async fn fetch_chrome_updates() -> Result<Vec<YumUpdate>, Error> {
     Ok(fetch_yum_updates(

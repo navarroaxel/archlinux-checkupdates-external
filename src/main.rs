@@ -1,16 +1,10 @@
-mod aur;
-mod chrome;
-mod edge;
-mod jetbrains;
-mod yum;
+use aur::fetch_aur_packages;
 use chrome::fetch_chrome_updates;
 use edge::fetch_edge_updates;
-use jetbrains::{fetch_jetbrains_updates, print_jetbrains_updates};
-use yum::{print_yum_updates, YumUpdate};
-
-use aur::fetch_aur_packages;
 use futures::join;
+use jetbrains::{fetch_jetbrains_updates, print_jetbrains_updates};
 use reqwest::Error;
+use yum::{print_yum_updates, YumUpdate};
 
 async fn check_yum_updates(products: Vec<Vec<&str>>, updates: Vec<YumUpdate>) -> Result<(), Error> {
     let packages = fetch_aur_packages(products.iter().map(|p| p[0]).collect()).await?;

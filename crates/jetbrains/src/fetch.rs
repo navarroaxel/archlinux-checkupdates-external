@@ -1,4 +1,4 @@
-use crate::jetbrains::JetBrainsRepository;
+use crate::JetBrainsRepository;
 use reqwest::Error;
 
 pub async fn fetch_jetbrains_updates() -> Result<JetBrainsRepository, Error> {

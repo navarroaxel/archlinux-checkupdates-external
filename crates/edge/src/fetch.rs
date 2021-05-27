@@ -1,6 +1,6 @@
-use crate::edge::model::RepositoryMetadata;
-use crate::yum::{fetch_yum_updates, YumUpdate};
+use crate::model::RepositoryMetadata;
 use reqwest::Error;
+use yum::{fetch_yum_updates, YumUpdate};
 
 pub fn get_url(path: &str) -> String {
     format!("https://packages.microsoft.com/yumrepos/edge/{}", path)

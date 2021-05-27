@@ -1,0 +1,16 @@
+[package]
+name = "yum"
+version = "0.1.0"
+authors = ["Axel Navarro <navarroaxel@gmail.com>"]
+
+[lib]
+edition = "2018"
+
+[dependencies]
+aur = { path = "../aur" }
+
+itertools = "0.10.0"
+libflate = "1.1.0"
+reqwest = { version = "0.11.3", features = ["json", "gzip"] }
+serde = { version = "1.0.126", features = ["derive"] }
+serde-xml-rs = "0.4.1"
