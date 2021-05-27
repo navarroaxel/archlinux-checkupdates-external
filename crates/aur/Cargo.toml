@@ -2,9 +2,9 @@
 name = "aur"
 version = "0.1.0"
 authors = ["Axel Navarro <navarroaxel@gmail.com>"]
+edition = "2018"
 
 [lib]
-edition = "2018"
 
 [dependencies]
 futures = "0.3.15"

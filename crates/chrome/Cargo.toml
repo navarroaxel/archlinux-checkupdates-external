@@ -2,9 +2,9 @@
 name = "chrome"
 version = "0.1.0"
 authors = ["Axel Navarro <navarroaxel@gmail.com>"]
+edition = "2018"
 
 [lib]
-edition = "2018"
 
 [dependencies]
 aur = { path = "../aur" }
