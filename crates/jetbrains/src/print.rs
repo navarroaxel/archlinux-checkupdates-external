@@ -1,5 +1,5 @@
-use aur::AurPackage;
 use crate::{JetBrainsRepository, Product};
+use aur::AurPackage;
 
 fn get_package_build(version: String) -> String {
     let mut result = String::with_capacity(version.len());

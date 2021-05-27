@@ -1,8 +1,8 @@
+use crate::model::{YumRepository, YumUpdate};
 use itertools::Itertools;
 use libflate::gzip::Decoder;
 use reqwest::{Error, Response};
 use std::io::Read;
-use crate::model::{YumRepository, YumUpdate};
 
 async fn inflate_response(response: Response) -> Result<String, Error> {
     let body = response.bytes().await?;
