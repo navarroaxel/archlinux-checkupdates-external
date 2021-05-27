@@ -5,9 +5,12 @@ authors = ["Axel Navarro <navarroaxel@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-futures = "0.3.5"
-libflate = "1.0.2"
-serde = { version = "1.0.115", features = ["derive"] }
-serde-xml-rs = "0.4.0"
-reqwest = { version = "0.10.7", features = ["json", "gzip"] }
-tokio = { version = "0.2.22", features = ["full"] }
+aur = {path = "crates/aur" }
+chrome = { path = "crates/chrome" }
+edge = { path = "crates/edge" }
+jetbrains = { path = "crates/jetbrains" }
+yum = {path = "crates/yum" }
+
+futures = "0.3.15"
+reqwest = { version = "0.11.3", features = ["json", "gzip"] }
+tokio = { version = "1.6.0", features = ["full"] }

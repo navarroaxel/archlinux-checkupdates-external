@@ -1,4 +1,5 @@
-use crate::chrome::model::{ChromeRepository, ChromeUpdate};
+use crate::model::{YumRepository, YumUpdate};
+use itertools::Itertools;
 use libflate::gzip::Decoder;
 use reqwest::{Error, Response};
 use std::io::Read;
@@ -11,22 +12,20 @@ async fn inflate_response(response: Response) -> Result<String, Error> {
     Ok(decoded.iter().map(|&c| c as char).collect::<String>())
 }
 
-pub async fn fetch_chrome_updates() -> Result<Vec<ChromeUpdate>, Error> {
-    let response = inflate_response(
-        reqwest::get("https://dl.google.com/linux/chrome/rpm/stable/x86_64/repodata/other.xml.gz")
-            .await?,
-    )
-    .await?;
-    let repository: ChromeRepository = serde_xml_rs::from_str(&response).unwrap();
+pub async fn fetch_yum_updates(url: &str) -> Result<Vec<YumUpdate>, Error> {
+    let response = inflate_response(reqwest::get(url).await?).await?;
+    let repository: YumRepository = serde_xml_rs::from_str(&response).unwrap();
 
     let updates = repository
         .packages
         .iter()
-        .map(|pkg| ChromeUpdate {
+        .rev()
+        .unique_by(|pkg| &pkg.name)
+        .map(|pkg| YumUpdate {
             name: pkg.name.clone(),
             version: pkg.versions.first().unwrap().version.clone(),
         })
-        .collect::<Vec<ChromeUpdate>>();
+        .collect::<Vec<YumUpdate>>();
 
     Ok(updates)
 }

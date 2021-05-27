@@ -1,4 +1,4 @@
-use crate::aur::{AurPackage, AurResponse};
+use crate::{AurPackage, AurResponse};
 use reqwest::Error;
 
 pub async fn fetch_aur_packages(packages: Vec<&str>) -> Result<Vec<AurPackage>, Error> {
