@@ -6,22 +6,24 @@ mod yum;
 use chrome::fetch_chrome_updates;
 use edge::fetch_edge_updates;
 use jetbrains::{fetch_jetbrains_updates, print_jetbrains_updates};
-use yum::print_yum_updates;
+use yum::{print_yum_updates, YumUpdate};
 
 use aur::fetch_aur_packages;
 use futures::join;
 use reqwest::Error;
+
+async fn check_yum_updates(products: Vec<Vec<&str>>, updates: Vec<YumUpdate>) -> Result<(), Error> {
+    let packages = fetch_aur_packages(products.iter().map(|p| p[0]).collect()).await?;
+    print_yum_updates(products, packages, updates);
+    Ok(())
+}
 
 async fn check_edge_updates() -> Result<(), Error> {
     let products = vec![
         vec!["microsoft-edge-beta-bin", "microsoft-edge-beta"],
         vec!["microsoft-edge-dev-bin", "microsoft-edge-dev"],
     ];
-    let (updates, packages) = join!(
-        fetch_edge_updates(),
-        fetch_aur_packages(products.iter().map(|p| p[0]).collect())
-    );
-    print_yum_updates(products, packages.unwrap(), updates.unwrap());
+    check_yum_updates(products, fetch_edge_updates().await?).await?;
     Ok(())
 }
 
@@ -31,11 +33,7 @@ async fn check_chrome_updates() -> Result<(), Error> {
         vec!["google-chrome-beta", "google-chrome-beta"],
         vec!["google-chrome-dev", "google-chrome-unstable"],
     ];
-    let (updates, packages) = join!(
-        fetch_chrome_updates(),
-        fetch_aur_packages(products.iter().map(|p| p[0]).collect())
-    );
-    print_yum_updates(products, packages.unwrap(), updates.unwrap());
+    check_yum_updates(products, fetch_chrome_updates().await?).await?;
     Ok(())
 }
 
