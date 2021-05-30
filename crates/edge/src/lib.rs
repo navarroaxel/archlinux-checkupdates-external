@@ -1,4 +1,3 @@
 mod fetch;
-mod model;
 
-pub use fetch::*;
+pub use fetch::fetch_edge_updates;
