@@ -43,6 +43,7 @@ async fn check_mongodb_updates() -> Result<(), Error> {
 
 async fn check_jetbrains_updates() -> Result<(), Error> {
     let jetbrains_products = vec![
+        vec!["clion", "CLion", "CL-RELEASE-licensing-RELEASE"],
         vec!["datagrip", "DataGrip", "DB-RELEASE-licensing-RELEASE"],
         vec!["goland", "GoLand", "GO-RELEASE-licensing-RELEASE"],
         vec!["goland-eap", "GoLand", "GO-EAP-licensing-EAP"],
