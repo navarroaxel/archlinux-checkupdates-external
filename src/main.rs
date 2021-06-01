@@ -3,21 +3,13 @@ use chrome::fetch_chrome_updates;
 use edge::fetch_edge_updates;
 use futures::join;
 use jetbrains::{fetch_jetbrains_updates, print_jetbrains_updates};
+use mongodb::fetch_mongodb_updates;
 use reqwest::Error;
 use yum::{print_yum_updates, YumUpdate};
 
 async fn check_yum_updates(products: Vec<Vec<&str>>, updates: Vec<YumUpdate>) -> Result<(), Error> {
     let packages = fetch_aur_packages(products.iter().map(|p| p[0]).collect()).await?;
     print_yum_updates(products, packages, updates);
-    Ok(())
-}
-
-async fn check_edge_updates() -> Result<(), Error> {
-    let products = vec![
-        vec!["microsoft-edge-beta-bin", "microsoft-edge-beta"],
-        vec!["microsoft-edge-dev-bin", "microsoft-edge-dev"],
-    ];
-    check_yum_updates(products, fetch_edge_updates().await?).await?;
     Ok(())
 }
 
@@ -31,8 +23,27 @@ async fn check_chrome_updates() -> Result<(), Error> {
     Ok(())
 }
 
+async fn check_edge_updates() -> Result<(), Error> {
+    let products = vec![
+        vec!["microsoft-edge-beta-bin", "microsoft-edge-beta"],
+        vec!["microsoft-edge-dev-bin", "microsoft-edge-dev"],
+    ];
+    check_yum_updates(products, fetch_edge_updates().await?).await?;
+    Ok(())
+}
+
+async fn check_mongodb_updates() -> Result<(), Error> {
+    let products = vec![
+        vec!["mongodb-bin", "mongodb-org"],
+        vec!["mongodb-tools-bin", "mongodb-database-tools"],
+    ];
+    check_yum_updates(products, fetch_mongodb_updates().await?).await?;
+    Ok(())
+}
+
 async fn check_jetbrains_updates() -> Result<(), Error> {
     let jetbrains_products = vec![
+        vec!["clion", "CLion", "CL-RELEASE-licensing-RELEASE"],
         vec!["datagrip", "DataGrip", "DB-RELEASE-licensing-RELEASE"],
         vec!["goland", "GoLand", "GO-RELEASE-licensing-RELEASE"],
         vec!["goland-eap", "GoLand", "GO-EAP-licensing-EAP"],
@@ -85,13 +96,15 @@ async fn check_jetbrains_updates() -> Result<(), Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let (jetbrains_result, edge_result, chrome_result) = join!(
+    let (jetbrains_result, edge_result, chrome_result, mongodb_result) = join!(
         check_jetbrains_updates(),
         check_edge_updates(),
-        check_chrome_updates()
+        check_chrome_updates(),
+        check_mongodb_updates()
     );
     jetbrains_result.expect("Cannot fetch JetBrains updates!");
     edge_result.expect("Cannot fetch Microsoft Edge updates!");
     chrome_result.expect("Cannot fetch Google Chrome updates!");
+    mongodb_result.expect("Cannot fetch MongoDB updates!");
     Ok(())
 }

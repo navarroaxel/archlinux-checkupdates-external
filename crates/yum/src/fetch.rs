@@ -1,4 +1,4 @@
-use crate::model::{YumRepository, YumUpdate};
+use crate::model::{RepositoryMetadata, YumRepository, YumUpdate};
 use itertools::Itertools;
 use libflate::gzip::Decoder;
 use reqwest::{Error, Response};
@@ -10,6 +10,20 @@ async fn inflate_response(response: Response) -> Result<String, Error> {
     let mut decoded = Vec::new();
     decoder.read_to_end(&mut decoded).unwrap();
     Ok(decoded.iter().map(|&c| c as char).collect::<String>())
+}
+
+pub async fn fetch_yum_repository_path(url: &str) -> Result<String, Error> {
+    let response = reqwest::get(url).await?.text().await?;
+
+    let repository_metadata: RepositoryMetadata = serde_xml_rs::from_str(&response).unwrap();
+
+    let repository = repository_metadata
+        .repositories
+        .iter()
+        .find(|repo| repo.data_type == "other")
+        .unwrap();
+
+    Ok((repository.location.href).clone())
 }
 
 pub async fn fetch_yum_updates(url: &str) -> Result<Vec<YumUpdate>, Error> {
