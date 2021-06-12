@@ -13,6 +13,7 @@ chrome = { path = "crates/chrome" }
 edge = { path = "crates/edge" }
 jetbrains = { path = "crates/jetbrains" }
 mongodb = { path = "crates/mongodb" }
+teamviewer = { path = "crates/teamviewer" }
 yum = { path = "crates/yum" }
 
 futures = "0.3.15"

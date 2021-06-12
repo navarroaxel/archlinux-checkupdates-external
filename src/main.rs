@@ -5,6 +5,7 @@ use futures::join;
 use jetbrains::{fetch_jetbrains_updates, print_jetbrains_updates};
 use mongodb::fetch_mongodb_updates;
 use reqwest::Error;
+use teamviewer::fetch_teamviewer_updates;
 use yum::{print_yum_updates, YumUpdate};
 
 async fn check_yum_updates(products: Vec<Vec<&str>>, updates: Vec<YumUpdate>) -> Result<(), Error> {
@@ -38,6 +39,12 @@ async fn check_mongodb_updates() -> Result<(), Error> {
         vec!["mongodb-tools-bin", "mongodb-database-tools"],
     ];
     check_yum_updates(products, fetch_mongodb_updates().await?).await?;
+    Ok(())
+}
+
+async fn check_teamviewer_updates() -> Result<(), Error> {
+    let products = vec![vec!["teamviewer", "teamviewer"]];
+    check_yum_updates(products, fetch_teamviewer_updates().await?).await?;
     Ok(())
 }
 
@@ -96,15 +103,17 @@ async fn check_jetbrains_updates() -> Result<(), Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let (jetbrains_result, edge_result, chrome_result, mongodb_result) = join!(
+    let (jetbrains_result, chrome_result, edge_result, mongodb_result, teamviewer_result) = join!(
         check_jetbrains_updates(),
-        check_edge_updates(),
         check_chrome_updates(),
-        check_mongodb_updates()
+        check_edge_updates(),
+        check_mongodb_updates(),
+        check_teamviewer_updates()
     );
     jetbrains_result.expect("Cannot fetch JetBrains updates!");
     edge_result.expect("Cannot fetch Microsoft Edge updates!");
     chrome_result.expect("Cannot fetch Google Chrome updates!");
     mongodb_result.expect("Cannot fetch MongoDB updates!");
+    teamviewer_result.expect("Cannot fetch TeamViewer updates!");
     Ok(())
 }

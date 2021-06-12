@@ -1,7 +1,9 @@
-use crate::model::{RepositoryMetadata, YumRepository, YumUpdate};
+use crate::model::{RepositoryMetadata, YumPackage, YumRepository, YumUpdate};
 use itertools::Itertools;
 use libflate::gzip::Decoder;
 use reqwest::{Error, Response};
+use semver::Version;
+use std::cmp::Ordering;
 use std::io::Read;
 
 async fn inflate_response(response: Response) -> Result<String, Error> {
@@ -26,6 +28,12 @@ pub async fn fetch_yum_repository_path(url: &str) -> Result<String, Error> {
     Ok((repository.location.href).clone())
 }
 
+fn compare_versions(a: &YumPackage, b: &YumPackage) -> Ordering {
+    Version::parse(&a.semver())
+        .unwrap()
+        .cmp(&Version::parse(&b.semver()).unwrap())
+}
+
 pub async fn fetch_yum_updates(url: &str) -> Result<Vec<YumUpdate>, Error> {
     let response = inflate_response(reqwest::get(url).await?).await?;
     let repository: YumRepository = serde_xml_rs::from_str(&response).unwrap();
@@ -33,7 +41,7 @@ pub async fn fetch_yum_updates(url: &str) -> Result<Vec<YumUpdate>, Error> {
     let updates = repository
         .packages
         .iter()
-        .rev()
+        .sorted_by(|a, b| compare_versions(b, a))
         .unique_by(|pkg| &pkg.name)
         .map(|pkg| YumUpdate {
             name: pkg.name.clone(),
