@@ -16,6 +16,6 @@ mongodb = { path = "crates/mongodb" }
 teamviewer = { path = "crates/teamviewer" }
 yum = { path = "crates/yum" }
 
-futures = "0.3.15"
-reqwest = { version = "0.11.3", features = ["json", "gzip"] }
-tokio = { version = "1.6.0", features = ["full"] }
+futures = "0.3.16"
+reqwest = { version = "0.11.4", features = ["json", "gzip"] }
+tokio = { version = "1.9.0", features = ["full"] }
