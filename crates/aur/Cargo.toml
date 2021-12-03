@@ -7,6 +7,6 @@ edition = "2018"
 [lib]
 
 [dependencies]
-futures = "0.3.16"
-reqwest = { version = "0.11.4", features = ["json", "gzip"] }
-serde = { version = "1.0.127", features = ["derive"] }
+futures = "0.3.18"
+reqwest = { version = "0.11.7", features = ["json", "gzip"] }
+serde = { version = "1.0.130", features = ["derive"] }

@@ -28,6 +28,7 @@ async fn check_edge_updates() -> Result<(), Error> {
     let products = vec![
         vec!["microsoft-edge-beta-bin", "microsoft-edge-beta"],
         vec!["microsoft-edge-dev-bin", "microsoft-edge-dev"],
+        vec!["microsoft-edge-stable-bin", "microsoft-edge-stable"],
     ];
     check_yum_updates(products, fetch_edge_updates().await?).await?;
     Ok(())
