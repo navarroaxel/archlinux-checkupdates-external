@@ -38,6 +38,7 @@ async fn check_mongodb_updates() -> Result<(), Error> {
     let products = vec![
         vec!["mongodb-bin", "mongodb-org"],
         vec!["mongodb-tools-bin", "mongodb-database-tools"],
+        vec!["mongosh-bin", "mongodb-mongosh"],
     ];
     check_yum_updates(products, fetch_mongodb_updates().await?).await?;
     Ok(())
