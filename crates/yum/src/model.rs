@@ -53,6 +53,11 @@ impl YumPackage {
         self.versions.first().unwrap().version.clone()
     }
 
+    pub fn is_pre_release(&self) -> bool {
+        let version = self.version();
+        version.contains('~')
+    }
+
     pub fn semver(&self) -> String {
         let version = self.version();
         let mut groups = version.split(".").collect_vec();
