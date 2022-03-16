@@ -41,6 +41,7 @@ pub async fn fetch_yum_updates(url: &str) -> Result<Vec<YumUpdate>, Error> {
     let updates = repository
         .packages
         .iter()
+        .filter(|pkg| !pkg.is_pre_release())
         .sorted_by(|a, b| compare_versions(b, a))
         .unique_by(|pkg| &pkg.name)
         .map(|pkg| YumUpdate {
