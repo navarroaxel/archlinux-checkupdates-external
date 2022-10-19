@@ -18,7 +18,7 @@ pub struct Channel {
 #[derive(Deserialize, Debug)]
 pub struct Product {
     pub name: String,
-    #[serde(rename = "channel")]
+    #[serde(rename = "channel", default)]
     pub channels: Vec<Channel>,
 }
 
