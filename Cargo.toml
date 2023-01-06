@@ -18,4 +18,4 @@ yum = { path = "crates/yum" }
 
 futures = "0.3.24"
 reqwest = { version = "0.11.12", features = ["json", "gzip"] }
-tokio = { version = "1.21.2", features = ["full"] }
+tokio = { version = "1.23.1", features = ["full"] }
