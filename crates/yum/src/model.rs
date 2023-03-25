@@ -3,7 +3,7 @@ use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 pub struct RepositoryLocation {
-    #[serde()]
+    #[serde(default)]
     pub href: String,
 }
 

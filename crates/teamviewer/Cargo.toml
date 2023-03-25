@@ -2,7 +2,7 @@
 name = "teamviewer"
 version = "0.1.0"
 authors = ["Axel Navarro <navarroaxel@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [lib]
 
@@ -10,4 +10,4 @@ edition = "2018"
 aur = { path = "../aur" }
 yum = { path = "../yum" }
 
-reqwest = { version = "0.11.14", features = ["json", "gzip"] }
+reqwest = { version = "0.11.15", features = ["json", "gzip"] }
