@@ -3,7 +3,7 @@ use yum::{fetch_yum_repository_path, fetch_yum_updates, YumUpdate};
 
 pub fn get_url(path: &str) -> String {
     format!(
-        "https://repo.mongodb.org/yum/redhat/8/mongodb-org/6.0/x86_64/{}",
+        "https://repo.mongodb.org/yum/redhat/8/mongodb-org/7.0/x86_64/{}",
         path
     )
 }
