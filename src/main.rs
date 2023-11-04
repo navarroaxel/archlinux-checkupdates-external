@@ -83,7 +83,6 @@ async fn check_jetbrains_updates() -> Result<(), Error> {
             "PyCharm",
             "PC-PY-EAP-licensing-EAP",
         ],
-        vec!["pycharm-edu", "PyCharm Edu", "PE-RELEASE-licensing-RELEASE"],
         vec![
             "pycharm-professional",
             "PyCharm",
