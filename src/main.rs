@@ -57,7 +57,7 @@ async fn check_jetbrains_updates() -> Result<(), Error> {
         vec!["goland", "GoLand", "GO-RELEASE-licensing-RELEASE"],
         vec!["goland-eap", "GoLand", "GO-EAP-licensing-EAP"],
         vec![
-            "intellij-idea-ce",
+            "intellij-idea-community-edition-jre",
             "IntelliJ IDEA",
             "IC-IU-RELEASE-licensing-RELEASE",
         ],
