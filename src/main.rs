@@ -91,6 +91,7 @@ async fn check_jetbrains_updates() -> Result<(), Error> {
         vec!["rider", "Rider", "RD-RELEASE-licensing-RELEASE"],
         vec!["rubymine", "RubyMine", "RM-RELEASE-licensing-RELEASE"],
         vec!["rubymine-eap", "RubyMine", "RM-EAP-licensing-EAP"],
+        vec!["rustrover-eap", "RustRover", "RR-EAP-licensing-EAP"],
         vec!["webstorm", "WebStorm", "WS-RELEASE-licensing-RELEASE"],
         vec!["webstorm-eap", "WebStorm", "WS-EAP-licensing-EAP"],
     ];
