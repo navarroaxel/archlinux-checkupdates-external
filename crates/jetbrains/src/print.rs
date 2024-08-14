@@ -29,6 +29,12 @@ fn print_update(package: &str, version: String, new_version: &str) {
     }
 }
 
+fn get_package_pre_build(version: String) -> String {
+    let mut splitter = version.split("pre+");
+    splitter.next();
+    splitter.next().unwrap().to_string()
+}
+
 fn print_jetbrains_update(
     channel_name: &str,
     package: &AurPackage,
@@ -47,7 +53,14 @@ fn print_jetbrains_update(
     let build = channel.builds.first().unwrap();
     let mut version = remove_epoch(package.get_package_version());
     let new_version;
-    if is_eap {
+    if package.name == "rustrover-eap" {
+        if version.contains("pre") {
+            version = get_package_pre_build(version);
+            new_version = build.full_number.as_ref().unwrap();
+        } else {
+            new_version = &build.version;
+        }
+    } else if is_eap {
         version = get_package_build(version);
         new_version = build.full_number.as_ref().unwrap();
     } else {

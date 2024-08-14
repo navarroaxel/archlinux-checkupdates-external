@@ -1,17 +1,22 @@
-name: Lint Code Base
+name: Lint
 on:
   push:
   pull_request:
-    branches: [main]
-
+permissions: { }
 jobs:
   build:
-    name: Lint Code Base
+    name: Lint
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
     steps:
       - uses: actions/checkout@v4
-      - uses: github/super-linter@v5
+        with:
+          fetch-depth: 0
+      - uses: super-linter/super-linter@v6
         env:
-          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_RUST_2015: false
+          VALIDATE_RUST_CLIPPY: false

@@ -3,10 +3,9 @@ on:
   push:
   pull_request:
     branches: [main]
-
+permissions: { }
 env:
   CARGO_TERM_COLOR: always
-
 jobs:
   fmt:
     runs-on: ubuntu-latest
