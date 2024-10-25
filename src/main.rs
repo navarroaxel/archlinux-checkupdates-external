@@ -18,6 +18,7 @@ async fn check_chrome_updates() -> Result<(), Error> {
     let products = vec![
         vec!["google-chrome", "google-chrome-stable"],
         vec!["google-chrome-beta", "google-chrome-beta"],
+        vec!["google-chrome-canary", "google-chrome-canary"],
         vec!["google-chrome-dev", "google-chrome-unstable"],
     ];
     check_yum_updates(products, fetch_chrome_updates().await?).await?;
