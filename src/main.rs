@@ -81,11 +81,7 @@ async fn check_jetbrains_updates() -> Result<(), Error> {
         ],
         vec!["phpstorm", "PhpStorm", "PS-RELEASE-licensing-RELEASE"],
         vec!["phpstorm-eap", "PhpStorm", "PS-EAP-licensing-EAP"],
-        vec![
-            "pycharm-community-eap",
-            "PyCharm",
-            "PC-PY-EAP-licensing-EAP",
-        ],
+        vec!["pycharm-eap", "PyCharm", "PC-PY-EAP-licensing-EAP"],
         vec![
             "pycharm-professional",
             "PyCharm",
