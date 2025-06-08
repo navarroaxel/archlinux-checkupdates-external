@@ -12,20 +12,20 @@ use yum::{print_yum_updates, YumUpdate};
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-    /// Only check updates from JetBrains products
+    /// Check updates from JetBrains products
     #[arg(long = "jb")]
-    jetbrains_only: bool,
+    jetbrains: bool,
 
-    /// Only check updates from MongoDB products
+    /// Check updates from MongoDB products
     #[arg(long = "mongo")]
-    mongodb_only: bool,
+    mongodb: bool,
 
-    /// Only check updates from Google Chrome products
+    /// Check updates from Google Chrome products
     #[arg(long = "chrome")]
-    chrome_only: bool,
+    chrome: bool,
 
     /// Show all packages even if versions match
-    #[arg(long = "all")]
+    #[arg(long = "all", short = 'a')]
     show_all: bool,
 }
 
@@ -133,34 +133,28 @@ async fn check_jetbrains_updates(show_all: bool) -> Result<(), Error> {
     Ok(())
 }
 
+type UpdateFuture = std::pin::Pin<Box<dyn std::future::Future<Output = Result<(), Error>> + Send>>;
+
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     let args = Args::parse();
+    if args.jetbrains || args.mongodb || args.chrome {
+        // Run only the selected products concurrently
+        let mut futures: Vec<UpdateFuture> = Vec::new();
+        if args.jetbrains {
+            futures.push(Box::pin(check_jetbrains_updates(args.show_all)));
+        }
+        if args.mongodb {
+            futures.push(Box::pin(check_mongodb_updates(args.show_all)));
+        }
+        if args.chrome {
+            futures.push(Box::pin(check_chrome_updates(args.show_all)));
+        }
 
-    // Count how many flags are set
-    let flags_count = [args.jetbrains_only, args.mongodb_only, args.chrome_only]
-        .iter()
-        .filter(|&&flag| flag)
-        .count();
-
-    // Ensure only one flag is used at a time
-    if flags_count > 1 {
-        eprintln!("Error: Only one of --jb, --mongo, or --chrome can be specified at a time");
-        std::process::exit(1);
-    }
-
-    if args.jetbrains_only {
-        check_jetbrains_updates(args.show_all)
-            .await
-            .expect("Cannot fetch JetBrains updates!");
-    } else if args.mongodb_only {
-        check_mongodb_updates(args.show_all)
-            .await
-            .expect("Cannot fetch MongoDB updates!");
-    } else if args.chrome_only {
-        check_chrome_updates(args.show_all)
-            .await
-            .expect("Cannot fetch Google Chrome updates!");
+        let results = futures::future::join_all(futures).await;
+        for result in results {
+            result.expect("Cannot fetch updates!");
+        }
     } else {
         // Check all products if no specific flag is provided
         let (jetbrains_result, chrome_result, edge_result, mongodb_result, teamviewer_result) = join!(
