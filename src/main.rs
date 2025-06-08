@@ -2,8 +2,7 @@ use aur::fetch_aur_packages;
 use chrome::fetch_chrome_updates;
 use clap::Parser;
 use edge::fetch_edge_updates;
-use futures::join;
-use jetbrains::{fetch_jetbrains_updates, print_jetbrains_updates};
+use jetbrains::print_jetbrains_updates;
 use mongodb::fetch_mongodb_updates;
 use reqwest::Error;
 use teamviewer::fetch_teamviewer_updates;
@@ -120,16 +119,9 @@ async fn check_jetbrains_updates(show_all: bool) -> Result<(), Error> {
         vec!["webstorm", "WebStorm", "WS-RELEASE-licensing-RELEASE"],
         vec!["webstorm-eap", "WebStorm", "WS-EAP-licensing-EAP"],
     ];
-    let (updates, packages) = join!(
-        fetch_jetbrains_updates(),
-        fetch_aur_packages(jetbrains_products.iter().map(|p| p[0]).collect())
-    );
-    print_jetbrains_updates(
-        jetbrains_products,
-        packages.unwrap(),
-        updates.unwrap(),
-        show_all,
-    );
+    let updates = jetbrains::fetch_jetbrains_updates().await?;
+    let packages = fetch_aur_packages(jetbrains_products.iter().map(|p| p[0]).collect()).await?;
+    print_jetbrains_updates(jetbrains_products, packages, updates, show_all);
     Ok(())
 }
 
@@ -138,45 +130,48 @@ type UpdateFuture = std::pin::Pin<Box<dyn std::future::Future<Output = Result<()
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     let args = Args::parse();
-    if args.jetbrains || args.mongodb || args.chrome {
-        // Run only the selected products concurrently
-        let mut futures: Vec<(&str, UpdateFuture)> = Vec::new();
 
-        macro_rules! add_if_enabled {
-            ($flag:expr, $name:expr, $check_fn:expr) => {
-                if $flag {
-                    futures.push(($name, Box::pin($check_fn(args.show_all))));
-                }
-            };
-        }
+    let mut futures: Vec<(&str, UpdateFuture)> = Vec::new();
 
-        add_if_enabled!(args.jetbrains, "JetBrains", check_jetbrains_updates);
-        add_if_enabled!(args.mongodb, "MongoDB", check_mongodb_updates);
-        add_if_enabled!(args.chrome, "Google Chrome", check_chrome_updates);
+    // If no flags are set, check all products; otherwise check only selected ones
+    let check_all = !args.jetbrains && !args.mongodb && !args.chrome;
 
-        let results = futures::future::join_all(
-            futures
-                .into_iter()
-                .map(|(name, future)| async move { (name, future.await) }),
-        )
-        .await;
-        for (name, result) in results {
-            result.unwrap_or_else(|_| panic!("Cannot fetch updates for {}!", name));
-        }
-    } else {
-        // Check all products if no specific flag is provided
-        let (jetbrains_result, chrome_result, edge_result, mongodb_result, teamviewer_result) = join!(
-            check_jetbrains_updates(args.show_all),
-            check_chrome_updates(args.show_all),
-            check_edge_updates(args.show_all),
-            check_mongodb_updates(args.show_all),
-            check_teamviewer_updates(args.show_all)
-        );
-        jetbrains_result.expect("Cannot fetch JetBrains updates!");
-        edge_result.expect("Cannot fetch Microsoft Edge updates!");
-        chrome_result.expect("Cannot fetch Google Chrome updates!");
-        mongodb_result.expect("Cannot fetch MongoDB updates!");
-        teamviewer_result.expect("Cannot fetch TeamViewer updates!");
+    if check_all || args.jetbrains {
+        futures.push((
+            "JetBrains",
+            Box::pin(check_jetbrains_updates(args.show_all)),
+        ));
     }
+    if check_all || args.mongodb {
+        futures.push(("MongoDB", Box::pin(check_mongodb_updates(args.show_all))));
+    }
+    if check_all || args.chrome {
+        futures.push((
+            "Google Chrome",
+            Box::pin(check_chrome_updates(args.show_all)),
+        ));
+    }
+    if check_all {
+        futures.push((
+            "Microsoft Edge",
+            Box::pin(check_edge_updates(args.show_all)),
+        ));
+        futures.push((
+            "TeamViewer",
+            Box::pin(check_teamviewer_updates(args.show_all)),
+        ));
+    }
+
+    let results = futures::future::join_all(
+        futures
+            .into_iter()
+            .map(|(name, future)| async move { (name, future.await) }),
+    )
+    .await;
+
+    for (name, result) in results {
+        result.unwrap_or_else(|_| panic!("Cannot fetch updates for {}!", name));
+    }
+
     Ok(())
 }
