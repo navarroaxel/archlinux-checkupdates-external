@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`checkupdates-external` is a Rust CLI tool that checks for updates from external (non-Arch) repositories for packages available in the Arch Linux AUR. It outputs updates in the format: `<package> <current_ver> -> <new_version>`.
+`checkupdates-external` is a Rust command-line tool that checks for updates from external (non-Arch) repositories for packages available in the Arch Linux AUR. It outputs updates in the format: `<package> <current_ver> -> <new_version>`.
 
 ## Architecture
 
@@ -86,7 +86,7 @@ cargo test --all
 - AUR versions include release suffix (e.g., "1.2.3-1")
 - Upstream versions are typically clean (e.g., "1.2.3")
 - JetBrains uses complex build numbers requiring special parsing
-- Pre-release versions (containing '~') are filtered out
+- Prerelease versions (containing '~') are filtered out
 
 ### Error handling
 
