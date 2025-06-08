@@ -23,8 +23,8 @@ fn remove_epoch(version: String) -> String {
     splitter.next().unwrap().to_string()
 }
 
-fn print_update(package: &str, version: String, new_version: &str) {
-    if version != new_version {
+fn print_update(package: &str, version: String, new_version: &str, show_all: bool) {
+    if show_all || version != new_version {
         println!("{} {} -> {}", package, version, new_version);
     }
 }
@@ -40,6 +40,7 @@ fn print_jetbrains_update(
     package: &AurPackage,
     product: &Product,
     is_eap: bool,
+    show_all: bool,
 ) {
     let channel = if is_eap {
         product.channels.first().unwrap()
@@ -67,13 +68,14 @@ fn print_jetbrains_update(
         version = remove_package_build(version);
         new_version = &build.version;
     }
-    print_update(&package.name, version, new_version);
+    print_update(&package.name, version, new_version, show_all);
 }
 
 pub fn print_jetbrains_updates(
     products: Vec<Vec<&str>>,
     packages: Vec<AurPackage>,
     repository: JetBrainsRepository,
+    show_all: bool,
 ) {
     products.iter().for_each(|product| {
         print_jetbrains_update(
@@ -85,6 +87,7 @@ pub fn print_jetbrains_updates(
                 .find(|&u| u.name == product[1])
                 .unwrap(),
             product[0].ends_with("eap"),
+            show_all,
         )
     });
 }
