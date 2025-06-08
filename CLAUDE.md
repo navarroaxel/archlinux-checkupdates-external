@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Cargo workspace with a main binary and product-specific library crates:
 
-- **Main binary** (`src/main.rs`): 
+- **Main binary** (`src/main.rs`):
   - CLI interface using `clap` with derive macros
   - Orchestrates concurrent checks using `futures::join!`
   - Selective product checking via `--jb`, `--mongo`, `--chrome` flags (combinable)
@@ -97,7 +97,7 @@ cargo test --all
 ## CI/CD
 
 GitHub Actions runs on push/PR to main:
-1. **Rust workflow** (`rust.yml`): 
+1. **Rust workflow** (`rust.yml`):
    - Format check with `cargo fmt -- --check`
    - Build with `cargo build --verbose`
    - Clippy with `cargo clippy -- -D warnings`
