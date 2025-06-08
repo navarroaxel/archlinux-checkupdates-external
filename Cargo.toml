@@ -17,6 +17,6 @@ teamviewer = { path = "crates/teamviewer" }
 yum = { path = "crates/yum" }
 
 clap = { version = "4.5", features = ["derive"] }
-futures = "0.3.21"
+futures = "0.3.31"
 reqwest = { version = "0.12.19", features = ["gzip", "json"] }
 tokio = { version = "1.45", features = ["full"] }
