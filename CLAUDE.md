@@ -11,12 +11,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a Cargo workspace with a main binary and product-specific library crates:
 
 - **Main binary** (`src/main.rs`):
+
   - CLI interface using `clap` with derive macros
   - Orchestrates concurrent checks using `futures::join!`
   - Selective product checking via `--jb`, `--mongo`, `--chrome` flags (combinable)
   - `--all` flag to show all packages even when versions match
 
 - **Product crates** (`crates/*/`): Each handles a specific external source
+
   - `chrome/`: Google Chrome (stable, beta, dev, canary)
   - `edge/`: Microsoft Edge (stable, beta, dev)
   - `jetbrains/`: All JetBrains IDEs (stable and EAP channels)
@@ -28,7 +30,8 @@ This is a Cargo workspace with a main binary and product-specific library crates
   - `crates/aur/`: Centralized AUR package fetching
 
 Each product crate follows this pattern:
-- `lib.rs`: Re-exports public API
+
+- `lib.rs`: Reexports public API
 - `fetch.rs`: Async functions to fetch version information
 - `model.rs`: Data structures (when needed)
 - `print.rs`: Output formatting (when needed)
@@ -76,6 +79,7 @@ cargo test --all
 ### XML Parsing with serde-xml-rs 0.8.x
 
 **Important**: XML attributes must use `@` prefix in serde rename:
+
 ```rust
 #[serde(rename = "@name")]    // For attributes
 #[serde(rename = "element")]   // For nested elements
@@ -97,6 +101,7 @@ cargo test --all
 ## CI/CD
 
 GitHub Actions runs on push/PR to main:
+
 1. **Rust workflow** (`rust.yml`):
    - Format check with `cargo fmt -- --check`
    - Build with `cargo build --verbose`
