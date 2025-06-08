@@ -9,6 +9,6 @@ edition = "2021"
 [dependencies]
 aur = { path = "../aur" }
 
-reqwest = { version = "0.12.15", features = ["gzip", "json"] }
+reqwest = { version = "0.12.19", features = ["gzip", "json"] }
 serde = { version = "1.0.219", features = ["derive"] }
-serde-xml-rs = "0.7.0"
+serde-xml-rs = "0.8.1"

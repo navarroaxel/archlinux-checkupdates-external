@@ -3,13 +3,13 @@ use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 pub struct RepositoryLocation {
-    #[serde(default)]
+    #[serde(rename = "@href", default)]
     pub href: String,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct RepositoryData {
-    #[serde(rename = "type")]
+    #[serde(rename = "@type")]
     pub data_type: String,
     #[serde(rename = "location")]
     pub location: RepositoryLocation,
@@ -24,12 +24,13 @@ pub struct RepositoryMetadata {
 
 #[derive(Deserialize, Debug)]
 pub struct YumVersion {
-    #[serde(rename = "ver")]
+    #[serde(rename = "@ver")]
     pub version: String,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct YumPackage {
+    #[serde(rename = "@name")]
     pub name: String,
     #[serde(rename = "version")]
     pub versions: Vec<YumVersion>,
