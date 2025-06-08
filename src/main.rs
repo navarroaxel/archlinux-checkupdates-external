@@ -140,20 +140,20 @@ async fn main() -> Result<(), Error> {
     let args = Args::parse();
     if args.jetbrains || args.mongodb || args.chrome {
         // Run only the selected products concurrently
-        let mut futures: Vec<UpdateFuture> = Vec::new();
+        let mut futures: Vec<(&str, UpdateFuture)> = Vec::new();
         if args.jetbrains {
-            futures.push(Box::pin(check_jetbrains_updates(args.show_all)));
+            futures.push(("JetBrains", Box::pin(check_jetbrains_updates(args.show_all))));
         }
         if args.mongodb {
-            futures.push(Box::pin(check_mongodb_updates(args.show_all)));
+            futures.push(("MongoDB", Box::pin(check_mongodb_updates(args.show_all))));
         }
         if args.chrome {
-            futures.push(Box::pin(check_chrome_updates(args.show_all)));
+            futures.push(("Google Chrome", Box::pin(check_chrome_updates(args.show_all))));
         }
 
-        let results = futures::future::join_all(futures).await;
-        for result in results {
-            result.expect("Cannot fetch updates!");
+        let results = futures::future::join_all(futures.into_iter().map(|(name, future)| async move { (name, future.await) })).await;
+        for (name, result) in results {
+            result.expect(&format!("Cannot fetch updates for {}!", name));
         }
     } else {
         // Check all products if no specific flag is provided
