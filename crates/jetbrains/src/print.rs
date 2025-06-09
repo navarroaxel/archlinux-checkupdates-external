@@ -1,7 +1,17 @@
 use crate::{JetBrainsRepository, Product};
 use aur::AurPackage;
 
+#[cfg(test)]
+pub(crate) fn get_package_build(version: String) -> String {
+    get_package_build_impl(version)
+}
+
+#[cfg(not(test))]
 fn get_package_build(version: String) -> String {
+    get_package_build_impl(version)
+}
+
+fn get_package_build_impl(version: String) -> String {
     let mut result = String::with_capacity(version.len());
     let mut splitter = version.rsplit('.');
     for i in 0..3 {
@@ -13,29 +23,91 @@ fn get_package_build(version: String) -> String {
     result
 }
 
+#[cfg(test)]
+pub(crate) fn remove_package_build(version: String) -> String {
+    remove_package_build_impl(version)
+}
+
+#[cfg(not(test))]
 fn remove_package_build(version: String) -> String {
+    remove_package_build_impl(version)
+}
+
+fn remove_package_build_impl(version: String) -> String {
     let mut splitter = version.split('b');
     splitter.next().unwrap().to_string()
 }
 
+#[cfg(test)]
+pub(crate) fn remove_epoch(version: String) -> String {
+    remove_epoch_impl(version)
+}
+
+#[cfg(not(test))]
 fn remove_epoch(version: String) -> String {
+    remove_epoch_impl(version)
+}
+
+fn remove_epoch_impl(version: String) -> String {
     let mut splitter = version.rsplit(':');
     splitter.next().unwrap().to_string()
 }
 
+#[cfg(test)]
+pub(crate) fn print_update(package: &str, version: String, new_version: &str, show_all: bool) {
+    print_update_impl(package, version, new_version, show_all)
+}
+
+#[cfg(not(test))]
 fn print_update(package: &str, version: String, new_version: &str, show_all: bool) {
+    print_update_impl(package, version, new_version, show_all)
+}
+
+fn print_update_impl(package: &str, version: String, new_version: &str, show_all: bool) {
     if show_all || version != new_version {
         println!("{} {} -> {}", package, version, new_version);
     }
 }
 
+#[cfg(test)]
+pub(crate) fn get_package_pre_build(version: String) -> String {
+    get_package_pre_build_impl(version)
+}
+
+#[cfg(not(test))]
 fn get_package_pre_build(version: String) -> String {
+    get_package_pre_build_impl(version)
+}
+
+fn get_package_pre_build_impl(version: String) -> String {
     let mut splitter = version.split("pre+");
     splitter.next();
     splitter.next().unwrap().to_string()
 }
 
+#[cfg(test)]
+pub(crate) fn print_jetbrains_update(
+    channel_name: &str,
+    package: &AurPackage,
+    product: &Product,
+    is_eap: bool,
+    show_all: bool,
+) {
+    print_jetbrains_update_impl(channel_name, package, product, is_eap, show_all)
+}
+
+#[cfg(not(test))]
 fn print_jetbrains_update(
+    channel_name: &str,
+    package: &AurPackage,
+    product: &Product,
+    is_eap: bool,
+    show_all: bool,
+) {
+    print_jetbrains_update_impl(channel_name, package, product, is_eap, show_all)
+}
+
+fn print_jetbrains_update_impl(
     channel_name: &str,
     package: &AurPackage,
     product: &Product,

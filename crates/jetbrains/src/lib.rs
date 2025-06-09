@@ -1,6 +1,7 @@
 mod fetch;
 mod model;
 mod print;
+mod tests;
 
 pub use fetch::fetch_jetbrains_updates;
 pub use model::*;
