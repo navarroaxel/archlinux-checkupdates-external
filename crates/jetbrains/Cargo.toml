@@ -12,3 +12,6 @@ aur = { path = "../aur" }
 reqwest = { version = "0.12.19", features = ["gzip", "json"] }
 serde = { version = "1.0.219", features = ["derive"] }
 serde-xml-rs = "0.8.1"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }

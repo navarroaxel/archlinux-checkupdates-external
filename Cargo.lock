@@ -117,6 +117,8 @@ dependencies = [
  "futures",
  "reqwest",
  "serde",
+ "serde_json",
+ "tokio",
 ]
 
 [[package]]
@@ -202,6 +204,7 @@ version = "0.1.0"
 dependencies = [
  "aur",
  "reqwest",
+ "tokio",
  "yum",
 ]
 
@@ -308,6 +311,7 @@ version = "0.1.0"
 dependencies = [
  "aur",
  "reqwest",
+ "tokio",
  "yum",
 ]
 
@@ -827,6 +831,7 @@ dependencies = [
  "reqwest",
  "serde",
  "serde-xml-rs",
+ "tokio",
 ]
 
 [[package]]
@@ -935,6 +940,7 @@ version = "0.1.0"
 dependencies = [
  "aur",
  "reqwest",
+ "tokio",
  "yum",
 ]
 
@@ -1454,6 +1460,7 @@ version = "0.1.0"
 dependencies = [
  "aur",
  "reqwest",
+ "tokio",
  "yum",
 ]
 
@@ -1957,6 +1964,7 @@ dependencies = [
  "semver",
  "serde",
  "serde-xml-rs",
+ "tokio",
 ]
 
 [[package]]

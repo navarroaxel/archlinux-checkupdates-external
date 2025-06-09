@@ -19,5 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build
         run: cargo build --verbose
+      - name: Test
+        run: cargo test --all
       - name: Clippy
         run: cargo clippy -- -D warnings

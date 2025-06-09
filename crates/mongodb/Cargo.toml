@@ -11,3 +11,6 @@ aur = { path = "../aur" }
 yum = { path = "../yum" }
 
 reqwest = { version = "0.12.19", features = ["gzip", "json"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
