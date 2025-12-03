@@ -77,8 +77,6 @@ async fn check_teamviewer_updates(show_all: bool) -> Result<(), Error> {
 
 async fn check_jetbrains_updates(show_all: bool) -> Result<(), Error> {
     let jetbrains_products = vec![
-        vec!["aqua", "Aqua", "QA-RELEASE-licensing-RELEASE"],
-        vec!["aqua-eap", "Aqua", "QA-EAP-licensing-EAP"],
         vec!["clion", "CLion", "CL-RELEASE-licensing-RELEASE"],
         vec!["datagrip", "DataGrip", "DB-RELEASE-licensing-RELEASE"],
         vec!["goland", "GoLand", "GO-RELEASE-licensing-RELEASE"],
@@ -89,7 +87,7 @@ async fn check_jetbrains_updates(show_all: bool) -> Result<(), Error> {
             "IC-IU-RELEASE-licensing-RELEASE",
         ],
         vec![
-            "intellij-idea-ce-eap",
+            "intellij-idea-community-edition-jre",
             "IntelliJ IDEA",
             "IC-IU-EAP-licensing-EAP",
         ],
@@ -106,11 +104,6 @@ async fn check_jetbrains_updates(show_all: bool) -> Result<(), Error> {
         vec!["phpstorm", "PhpStorm", "PS-RELEASE-licensing-RELEASE"],
         vec!["phpstorm-eap", "PhpStorm", "PS-EAP-licensing-EAP"],
         vec!["pycharm-eap", "PyCharm", "PC-PY-EAP-licensing-EAP"],
-        vec![
-            "pycharm-professional",
-            "PyCharm",
-            "PC-PY-RELEASE-licensing-RELEASE",
-        ],
         vec!["rider", "Rider", "RD-RELEASE-licensing-RELEASE"],
         vec!["rubymine", "RubyMine", "RM-RELEASE-licensing-RELEASE"],
         vec!["rubymine-eap", "RubyMine", "RM-EAP-licensing-EAP"],
