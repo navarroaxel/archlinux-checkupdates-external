@@ -87,7 +87,7 @@ async fn check_jetbrains_updates(show_all: bool) -> Result<(), Error> {
             "IC-IU-RELEASE-licensing-RELEASE",
         ],
         vec![
-            "intellij-idea-community-edition-jre",
+            "intellij-idea-open-eap",
             "IntelliJ IDEA",
             "IC-IU-EAP-licensing-EAP",
         ],
