@@ -10,8 +10,8 @@ edition = "2021"
 aur = { path = "../aur" }
 
 itertools = "0.14"
-libflate = "2.1.0"
-reqwest = { version = "0.12.24", features = ["gzip", "json"] }
+libflate = "2.2.1"
+reqwest = { version = "0.13.1", features = ["gzip", "json"] }
 semver = "1.0.27"
 serde = { version = "1.0.228", features = ["derive"] }
 serde-xml-rs = "0.8.2"
