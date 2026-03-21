@@ -1,5 +1,5 @@
 use reqwest::Error;
-use yum::{fetch_yum_updates, YumUpdate};
+use yum::{YumUpdate, fetch_yum_updates};
 
 pub async fn fetch_teamviewer_updates() -> Result<Vec<YumUpdate>, Error> {
     Ok(fetch_yum_updates(
