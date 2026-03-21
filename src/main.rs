@@ -6,7 +6,7 @@ use jetbrains::print_jetbrains_updates;
 use mongodb::fetch_mongodb_updates;
 use reqwest::Error;
 use teamviewer::fetch_teamviewer_updates;
-use yum::{print_yum_updates, YumUpdate};
+use yum::{YumUpdate, print_yum_updates};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
