@@ -2,7 +2,7 @@
 name = "chrome"
 version = "0.1.0"
 authors = ["Axel Navarro <navarroaxel@gmail.com>"]
-edition = "2021"
+edition = "2024"
 
 [lib]
 
