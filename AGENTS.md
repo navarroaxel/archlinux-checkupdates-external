@@ -104,16 +104,16 @@ multi-line expressions. Enforced by CI.
 
 ### Naming Conventions
 
-| Kind | Convention | Examples |
-| --- | --- | --- |
-| Functions | `snake_case` | `fetch_aur_packages`, `print_yum_updates` |
-| Fetch functions | `fetch_*` | `fetch_chrome_updates` |
-| Print functions | `print_*` | `print_jetbrains_updates` |
-| Orchestration | `check_*` | `check_chrome_updates` |
-| Helper/pure | `get_*`, `remove_*`, `compare_*` | `get_package_build` |
-| Structs | `PascalCase` | `AurPackage`, `YumUpdate`, `JetBrainsRepository` |
-| Modules/files | `snake_case` | `fetch.rs`, `model.rs`, `print.rs` |
-| Crates | short `snake_case` | `aur`, `yum`, `jetbrains` |
+| Kind            | Convention                       | Examples                                         |
+| --------------- | -------------------------------- | ------------------------------------------------ |
+| Functions       | `snake_case`                     | `fetch_aur_packages`, `print_yum_updates`        |
+| Fetch functions | `fetch_*`                        | `fetch_chrome_updates`                           |
+| Print functions | `print_*`                        | `print_jetbrains_updates`                        |
+| Orchestration   | `check_*`                        | `check_chrome_updates`                           |
+| Helper/pure     | `get_*`, `remove_*`, `compare_*` | `get_package_build`                              |
+| Structs         | `PascalCase`                     | `AurPackage`, `YumUpdate`, `JetBrainsRepository` |
+| Modules/files   | `snake_case`                     | `fetch.rs`, `model.rs`, `print.rs`               |
+| Crates          | short `snake_case`               | `aur`, `yum`, `jetbrains`                        |
 
 ### Module Pattern
 
@@ -169,17 +169,17 @@ Attributes **must** use `@` prefix in serde rename:
 
 ## Key Dependencies
 
-| Crate | Version | Purpose |
-| --- | --- | --- |
-| `clap` | 4.5 (`derive`) | CLI argument parsing |
-| `futures` | 0.3 | `join_all` for concurrency |
-| `reqwest` | 0.13 (`gzip`, `json`) | HTTP client |
-| `tokio` | 1.49 (`full`) | Async runtime |
-| `serde` | 1.0 (`derive`) | Serialization |
-| `serde-xml-rs` | 0.8.2 | XML deserialization |
-| `semver` | 1.0 | Version comparison |
-| `itertools` | 0.14 | Iterator utilities |
-| `libflate` | 2.2 | gzip decompression |
+| Crate          | Version               | Purpose                    |
+| -------------- | --------------------- | -------------------------- |
+| `clap`         | 4.5 (`derive`)        | CLI argument parsing       |
+| `futures`      | 0.3                   | `join_all` for concurrency |
+| `reqwest`      | 0.13 (`gzip`, `json`) | HTTP client                |
+| `tokio`        | 1.49 (`full`)         | Async runtime              |
+| `serde`        | 1.0 (`derive`)        | Serialization              |
+| `serde-xml-rs` | 0.8.2                 | XML deserialization        |
+| `semver`       | 1.0                   | Version comparison         |
+| `itertools`    | 0.14                  | Iterator utilities         |
+| `libflate`     | 2.2                   | gzip decompression         |
 
 ## CI / GitHub Actions
 
