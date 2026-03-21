@@ -105,7 +105,7 @@ multi-line expressions. Enforced by CI.
 ### Naming Conventions
 
 | Kind | Convention | Examples |
-|---|---|---|
+| --- | --- | --- |
 | Functions | `snake_case` | `fetch_aur_packages`, `print_yum_updates` |
 | Fetch functions | `fetch_*` | `fetch_chrome_updates` |
 | Print functions | `print_*` | `print_jetbrains_updates` |
