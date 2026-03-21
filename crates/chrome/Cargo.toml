@@ -7,7 +7,6 @@ edition = "2021"
 [lib]
 
 [dependencies]
-aur = { path = "../aur" }
 yum = { path = "../yum" }
 
 reqwest = { version = "0.13.1", features = ["gzip", "json"] }
