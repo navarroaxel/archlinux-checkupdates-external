@@ -4,7 +4,7 @@ Guidance for agentic coding assistants working in this repository.
 
 ## Project Overview
 
-`checkupdates-external` is a Rust CLI tool that checks for package updates from
+`checkupdates-external` is a Rust command-line tool that checks for package updates from
 external (non-pacman) upstream sources (JetBrains, MongoDB, Chrome, Edge,
 TeamViewer) and compares them against AUR versions. Output format:
 `<package> <current_ver> -> <new_version>`.
@@ -42,7 +42,7 @@ There is no single-test command because there are no tests in the codebase.
 
 ## Architecture
 
-```
+```text
 src/main.rs              # CLI (clap derive), concurrent orchestration via join_all
 crates/
   aur/                   # AUR RPC HTTP client (shared by all product crates)
@@ -77,7 +77,7 @@ YUM-based products (`chrome`, `edge`, `mongodb`, `teamviewer`) all depend on the
 ### Imports
 
 Group imports: external crates first (alphabetical), then `crate::` imports.
-No blank lines between items in the same group.
+No empty lines between items in the same group.
 
 ```rust
 use crate::model::{YumPackage, YumUpdate};
@@ -153,7 +153,7 @@ Attributes **must** use `@` prefix in serde rename:
 - All public async functions return `Result<T, reqwest::Error>`.
 - Propagate with `?`; no custom error types, no `anyhow`, no `thiserror`.
 - Use `.unwrap()` freely for internal invariants (unexpected parse failures,
-  missing data) — this is a CLI tool, not a library; panics are acceptable.
+  missing data) — this is a command-line tool, not a library; panics are acceptable.
 - Top-level failures in `main.rs` use:
   ```rust
   result.unwrap_or_else(|_| panic!("Cannot fetch updates for {}!", name));
@@ -170,7 +170,7 @@ Attributes **must** use `@` prefix in serde rename:
 ## Key Dependencies
 
 | Crate | Version | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | `clap` | 4.5 (`derive`) | CLI argument parsing |
 | `futures` | 0.3 | `join_all` for concurrency |
 | `reqwest` | 0.13 (`gzip`, `json`) | HTTP client |
