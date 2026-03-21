@@ -2,12 +2,11 @@
 name = "chrome"
 version = "0.1.0"
 authors = ["Axel Navarro <navarroaxel@gmail.com>"]
-edition = "2021"
+edition = "2024"
 
 [lib]
 
 [dependencies]
-aur = { path = "../aur" }
 yum = { path = "../yum" }
 
 reqwest = { version = "0.13.1", features = ["gzip", "json"] }

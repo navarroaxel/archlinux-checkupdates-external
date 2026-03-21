@@ -1,5 +1,5 @@
 use reqwest::Error;
-use yum::{fetch_yum_repository_path, fetch_yum_updates, YumUpdate};
+use yum::{YumUpdate, fetch_yum_repository_path, fetch_yum_updates};
 
 pub fn get_url(path: &str) -> String {
     format!(

@@ -6,7 +6,7 @@ use jetbrains::print_jetbrains_updates;
 use mongodb::fetch_mongodb_updates;
 use reqwest::Error;
 use teamviewer::fetch_teamviewer_updates;
-use yum::{print_yum_updates, YumUpdate};
+use yum::{YumUpdate, print_yum_updates};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -81,11 +81,6 @@ async fn check_jetbrains_updates(show_all: bool) -> Result<(), Error> {
         vec!["datagrip", "DataGrip", "DB-RELEASE-licensing-RELEASE"],
         vec!["goland", "GoLand", "GO-RELEASE-licensing-RELEASE"],
         vec!["goland-eap", "GoLand", "GO-EAP-licensing-EAP"],
-        vec![
-            "intellij-idea-community-edition-bin",
-            "IntelliJ IDEA",
-            "IC-IU-RELEASE-licensing-RELEASE",
-        ],
         vec![
             "intellij-idea-open-eap",
             "IntelliJ IDEA",

@@ -2,7 +2,7 @@
 name = "checkupdates-external"
 version = "0.1.0"
 authors = ["Axel Navarro <navarroaxel@gmail.com>"]
-edition = "2021"
+edition = "2024"
 repository =  "https://github.com/navarroaxel/archlinux-checkupdates-external"
 homepage =  "https://github.com/navarroaxel/archlinux-checkupdates-external"
 readme = "README.md"
