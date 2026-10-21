@@ -10,15 +10,18 @@ jobs:
     permissions:
       contents: read
       packages: read
+      pull-requests: write
       statuses: write
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: super-linter/super-linter@v9
+      - uses: super-linter/super-linter@2da136927bd4a73596db63044b504547c62cb854 # v9.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SAVE_SUPER_LINTER_SUMMARY: true
+          ENABLE_GITHUB_PULL_REQUEST_SUMMARY_COMMENT: true
           VALIDATE_RUST_2015: false
           VALIDATE_RUST_2018: false
           VALIDATE_RUST_2021: false
