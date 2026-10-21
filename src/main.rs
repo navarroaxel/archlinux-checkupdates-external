@@ -84,17 +84,17 @@ async fn check_jetbrains_updates(show_all: bool) -> Result<(), Error> {
         vec![
             "intellij-idea-open-eap",
             "IntelliJ IDEA",
-            "IC-IU-EAP-licensing-EAP",
+            "IU-EAP-licensing-EAP",
         ],
         vec![
             "intellij-idea-ultimate-edition",
             "IntelliJ IDEA",
-            "IC-IU-RELEASE-licensing-RELEASE",
+            "IU-RELEASE-licensing-RELEASE",
         ],
         vec![
             "intellij-idea-ue-eap",
             "IntelliJ IDEA",
-            "IC-IU-EAP-licensing-EAP",
+            "IU-EAP-licensing-EAP",
         ],
         vec!["phpstorm", "PhpStorm", "PS-RELEASE-licensing-RELEASE"],
         vec!["phpstorm-eap", "PhpStorm", "PS-EAP-licensing-EAP"],
