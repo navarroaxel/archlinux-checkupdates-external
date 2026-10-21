@@ -12,11 +12,11 @@ jobs:
       packages: read
       statuses: write
     steps:
-      - uses: actions/checkout@7
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: super-linter/super-linter@9
+      - uses: super-linter/super-linter@v9
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_RUST_2015: false
